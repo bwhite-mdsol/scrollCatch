@@ -15,8 +15,6 @@
   UIView *_colorView;
   
   BOOL _pulling;
-  // BOOL _deceleratingBackToZero;
-  // CGFloat _decelerationDistRatio;
 }
 
 #pragma mark UIScrollViewDelegat
@@ -33,39 +31,17 @@
   }
   
   if (_pulling) {
-      CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
-      [_delegate scrollingCell:self didChangePullOffset:pullOffset];
-
-// step 4c - decelerating iOS7 only - delete 2 above
-//
-//    CGFloat pullOffset;
-//
-//    if (_deceleratingBackToZero) {
-//      pullOffset = offset * _decelerationDistRatio;
-//    } else {
-//      pullOffset = MAX(0, offset - PULL_THRESHOLD);
-//    }
-
+    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
-//
-// step 2c
-//    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
 
+//
+// step 1d -- scrolling ended
+//
 - (void) scrollingEnded {
   [_delegate scrollingCellDidEndPulling:self];
   _pulling = NO;
-//
-// step 4b
-//
-//  _deceleratingBackToZero = NO;
-
-//
-// step 2a
-//
-//  _scrollView.contentOffset = CGPointZero;
-////  _scrollView.transform = CGAffineTransformIdentity;
 }
 
 - (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
@@ -79,22 +55,6 @@
   [self scrollingEnded];
 }
 
-// step 5
-//
-//- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-//{
-//  CGFloat offset = _scrollView.contentOffset.x;
-//
-//  if ((*targetContentOffset).x == 0 && offset > 0) {
-//    _deceleratingBackToZero = YES;
-//
-//    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
-//    _decelerationDistRatio = pullOffset / offset;
-//}
-
-//
-// step 1 - end
-//
 #pragma mark - Init
 
 - (id)initWithFrame:(CGRect)frame

@@ -31,6 +31,3 @@
 - (void) scrollingCell:(ScrollCell*)cell didChangePullOffset:(CGFloat)offset;
 - (void) scrollingCellDidEndPulling:(ScrollCell*)cell;
 @end
-//
-// step 1 end
-//
