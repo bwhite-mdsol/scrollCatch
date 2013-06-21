@@ -15,14 +15,11 @@
   UIView *_colorView;
   
   BOOL _pulling;
-  // BOOL _deceleratingBackToZero;
-  // CGFloat _decelerationDistRatio;
+  BOOL _deceleratingBackToZero;
+  CGFloat _decelerationDistRatio;
 }
 
-#pragma mark UIScrollViewDelegat
-//
-// step 1d -- implement protocol, don't forget _pulling above
-//
+#pragma mark UIScrollViewDelegate
 - (void) scrollViewDidScroll:(UIScrollView*)scrollView
 {
   CGFloat offset = scrollView.contentOffset.x;
@@ -33,24 +30,20 @@
   }
   
   if (_pulling) {
-      CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
-      [_delegate scrollingCell:self didChangePullOffset:pullOffset];
 
-// step 4c - decelerating iOS7 only - delete 2 above
 //
-//    CGFloat pullOffset;
+// step 3a - decelerating iOS 7 only 
 //
-//    if (_deceleratingBackToZero) {
-//      pullOffset = offset * _decelerationDistRatio;
-//    } else {
-//      pullOffset = MAX(0, offset - PULL_THRESHOLD);
-//    }
+    CGFloat pullOffset;
+
+    if (_deceleratingBackToZero) {
+      pullOffset = offset * _decelerationDistRatio;
+    } else {
+      pullOffset = MAX(0, offset - PULL_THRESHOLD);
+    }
 
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
 
-//
-// step 2b -- fix cell under finger
-//
     _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
@@ -58,19 +51,14 @@
 - (void) scrollingEnded {
   [_delegate scrollingCellDidEndPulling:self];
   _pulling = NO;
-//
-// step 4b
-//
-//  _deceleratingBackToZero = NO;
-
-//
-// step 2a -- refill cell when done scrolling
-//
-  _scrollView.contentOffset = CGPointZero;
   
 //
-// step 2c -- reset step 2b when done scrolling
+// step 3b -- reset decelerating
 //
+  _deceleratingBackToZero = NO;
+
+  _scrollView.contentOffset = CGPointZero;
+
   _scrollView.transform = CGAffineTransformIdentity;
 }
 
@@ -81,26 +69,26 @@
   }
 }
 
-- (void) scrollViewDidEndDecelerating:(UIScrollView*)scrollView {
+- (void) scrollViewDidEndDecelerating:(UIScrollView*)scrollView
+{
   [self scrollingEnded];
 }
 
-// step 5
 //
-//- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-//{
-//  CGFloat offset = _scrollView.contentOffset.x;
+// step 3a
 //
-//  if ((*targetContentOffset).x == 0 && offset > 0) {
-//    _deceleratingBackToZero = YES;
-//
-//    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
-//    _decelerationDistRatio = pullOffset / offset;
-//}
+- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+  CGFloat offset = _scrollView.contentOffset.x;
 
-//
-// step 1 - end
-//
+  if ((*targetContentOffset).x == 0 && offset > 0) {
+    _deceleratingBackToZero = YES;
+
+    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
+    _decelerationDistRatio = pullOffset / offset;
+  }
+}
+
 #pragma mark - Init
 
 - (id)initWithFrame:(CGRect)frame
@@ -132,9 +120,6 @@
   UIView *contentView = [self contentView];
   CGRect bounds = contentView.bounds;
 
-//
-// step 2b -- slide fully to the left by adding PULL_THRESHOLD
-//
   CGFloat pageWidth = bounds.size.width + PULL_THRESHOLD;
   _scrollView.frame = CGRectMake(0, 0, pageWidth, bounds.size.height);
   _scrollView.contentSize = CGSizeMake(pageWidth*2, bounds.size.height);
