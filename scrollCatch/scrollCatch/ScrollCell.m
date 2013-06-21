@@ -8,7 +8,7 @@
 
 #import "ScrollCell.h"
 
-#define PULL_THRESHOLD 120
+#define PULL_THRESHOLD 80
 
 @implementation ScrollCell {
   UIScrollView *_scrollView;
