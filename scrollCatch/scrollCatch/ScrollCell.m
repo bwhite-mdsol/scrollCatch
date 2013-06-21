@@ -48,7 +48,10 @@
 
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
 
-    //    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
+//
+// step 2c -- fix cell under finger
+//
+    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
 
@@ -61,9 +64,13 @@
 //  _deceleratingBackToZero = NO;
 
 //
-// step 2a
+// step 2a -- reset full cell
 //
   _scrollView.contentOffset = CGPointZero;
+  
+//
+// step 2b
+//
 //  _scrollView.transform = CGAffineTransformIdentity;
 }
 
