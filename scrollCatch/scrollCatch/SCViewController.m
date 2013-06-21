@@ -12,8 +12,8 @@
 //
 // step 1e - conform to protocol
 //
-//@interface SCViewController () <ScrollingCellDelegate>
-//@end
+@interface SCViewController () <ScrollingCellDelegate>
+@end
 //
 @implementation SCViewController
 
@@ -54,7 +54,7 @@
   //
   // step 1g - assign delegate
   //
-  //cell.delegate = self;
+  cell.delegate = self;
   
   return cell;
 }

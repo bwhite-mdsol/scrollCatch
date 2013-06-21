@@ -23,19 +23,19 @@
 //
 // step 1d -- implement protocol, don't forget _pulling above
 //
-//- (void) scrollViewDidScroll:(UIScrollView*)scrollView
-//{
-//  CGFloat offset = scrollView.contentOffset.x;
-//  
-//  if (offset > PULL_THRESHOLD && !_pulling) {
-//    [_delegate scrollingCellDidBeginPulling:self];
-//    _pulling = YES;
-//  }
-//  
-//  if (_pulling) {
-//      CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
-//      [_delegate scrollingCell:self didChangePullOffset:pullOffset];
-//
+- (void) scrollViewDidScroll:(UIScrollView*)scrollView
+{
+  CGFloat offset = scrollView.contentOffset.x;
+  
+  if (offset > PULL_THRESHOLD && !_pulling) {
+    [_delegate scrollingCellDidBeginPulling:self];
+    _pulling = YES;
+  }
+  
+  if (_pulling) {
+      CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
+      [_delegate scrollingCell:self didChangePullOffset:pullOffset];
+
 // step 4c - decelerating iOS7 only - delete 2 above
 //
 //    CGFloat pullOffset;
@@ -45,38 +45,40 @@
 //    } else {
 //      pullOffset = MAX(0, offset - PULL_THRESHOLD);
 //    }
-//
-//    [_delegate scrollingCell:self didChangePullOffset:pullOffset];
-//
-//    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
-//  }
-//}
-//
-//- (void) scrollingEnded {
-//  [_delegate scrollingCellDidEndPulling:self];
-//  _pulling = NO;
+
+    [_delegate scrollingCell:self didChangePullOffset:pullOffset];
+
+    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
+  }
+}
+
+- (void) scrollingEnded {
+  [_delegate scrollingCellDidEndPulling:self];
+  _pulling = NO;
 //
 // step 4b
 //
-////  _deceleratingBackToZero = NO;
+//  _deceleratingBackToZero = NO;
 
-////
-//// step 2
-////
-////  _scrollView.contentOffset = CGPointZero;
-//////  _scrollView.transform = CGAffineTransformIdentity;
-//}
 //
-//- (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
-//{
-//  if (!decelerate) {
-//    [self scrollingEnded];
-//  }
-//}
+// step 2
 //
-//- (void) scrollViewDidEndDecelerating:(UIScrollView*)scrollView {
-//  [self scrollingEnded];
-//}
+//  _scrollView.contentOffset = CGPointZero;
+////  _scrollView.transform = CGAffineTransformIdentity;
+}
+
+- (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
+{
+  if (!decelerate) {
+    [self scrollingEnded];
+  }
+}
+
+- (void) scrollViewDidEndDecelerating:(UIScrollView*)scrollView {
+  [self scrollingEnded];
+}
+
+// step 5
 //
 //- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 //{
