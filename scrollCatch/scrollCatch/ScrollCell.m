@@ -49,7 +49,7 @@
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
 
 //
-// step 2c -- fix cell under finger
+// step 2b -- fix cell under finger
 //
     _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
@@ -69,9 +69,9 @@
   _scrollView.contentOffset = CGPointZero;
   
 //
-// step 2b
+// step 2c -- reset step 2b when done scrolling
 //
-//  _scrollView.transform = CGAffineTransformIdentity;
+  _scrollView.transform = CGAffineTransformIdentity;
 }
 
 - (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
