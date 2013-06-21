@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SCViewController : UICollectionViewController <UICollectionViewDataSource>
-@property (strong, nonatomic)  UIScrollView *outerScrollView;
+@interface SCViewController : UIViewController <UIScrollViewDelegate, UICollectionViewDataSource>
+@property (strong, nonatomic) UIScrollView *outerScrollView;
 @property (weak, nonatomic) IBOutlet UIView *buildingView;
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @end

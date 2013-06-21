@@ -67,18 +67,12 @@
 - (void) viewDidLoad
 {
   [super viewDidLoad];
+  
   [self.collectionView registerClass:[ScrollCell class] forCellWithReuseIdentifier:@"cell"];
   
-  CGRect rect = self.view.frame;
-  rect.size.width *= 2.0;
-  
-  self.outerScrollView = [[UIScrollView alloc] initWithFrame:rect];
-
-//  [self.outerScrollView addSubview:self.collectionView];
-//  self.view = self.outerScrollView;
-//  
-//  [self.view setNeedsDisplay];
-  
+  self.outerScrollView = (UIScrollView*)self.view;
+  self.outerScrollView.contentSize = CGSizeMake(320, 480);
+  [self.view setNeedsDisplay];
 }
 
 @end
