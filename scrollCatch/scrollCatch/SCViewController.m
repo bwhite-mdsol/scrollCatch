@@ -9,34 +9,7 @@
 #import "SCViewController.h"
 #import "ScrollCell.h"
 
-//
-// step 1e - conform to protocol
-//
-//@interface SCViewController () <ScrollingCellDelegate>
-//@end
-//
 @implementation SCViewController
-
-//
-// step 1f - protocol methods
-//
-#pragma mark - ScrollingCellDelegate
-
-- (void) scrollingCellDidBeginPulling:(ScrollCell*)cell
-{
-  [_outerScrollView setScrollEnabled:NO];
-  _buildingView.backgroundColor = cell.color;
-}
-
-- (void) scrollingCell:(ScrollCell *)cell didChangePullOffset:(CGFloat)offset
-{
-  [_outerScrollView setContentOffset:CGPointMake(offset,0)];
-}
-
-- (void) scrollingCellDidEndPulling:(ScrollCell*)cell
-{
-  [_outerScrollView setScrollEnabled:YES];
-}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -51,10 +24,6 @@
   float frac = ((256.0/[self myRowCount])*(float)[indexPath row])/255.0;
 
   cell.color = [UIColor colorWithRed:1-frac green:0.0 blue:frac alpha:1.0];
-  //
-  // step 1g - assign delegate
-  //
-  //cell.delegate = self;
   
   return cell;
 }
