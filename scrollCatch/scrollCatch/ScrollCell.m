@@ -31,12 +31,16 @@
     CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
     
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
+    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
 
 - (void) scrollingEnded {
   [_delegate scrollingCellDidEndPulling:self];
-  _pulling = NO;  
+  _pulling = NO;
+  
+  _scrollView.contentOffset = CGPointZero;
+  _scrollView.transform = CGAffineTransformIdentity;
 }
 
 - (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
@@ -78,7 +82,7 @@
   UIView *contentView = [self contentView];
   CGRect bounds = contentView.bounds;
   
-  CGFloat pageWidth = bounds.size.width;
+  CGFloat pageWidth = bounds.size.width + PULL_THRESHOLD;
   _scrollView.frame = CGRectMake(0, 0, pageWidth, bounds.size.height);
   _scrollView.contentSize = CGSizeMake(pageWidth*2, bounds.size.height);
   

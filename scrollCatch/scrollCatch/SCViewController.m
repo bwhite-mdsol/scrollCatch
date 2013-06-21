@@ -73,4 +73,6 @@
   self.outerScrollView = (UIScrollView*)self.view;
 }
 
+#pragma mark - UIScrollViewDelegate
+
 @end
