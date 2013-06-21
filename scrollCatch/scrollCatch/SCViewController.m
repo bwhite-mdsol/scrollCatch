@@ -60,19 +60,17 @@
 
 - (NSInteger) myRowCount
 {
-  return 20 ;
+  return 16;
 }
 
 #pragma mark - Init
 - (void) viewDidLoad
 {
   [super viewDidLoad];
-  
+
   [self.collectionView registerClass:[ScrollCell class] forCellWithReuseIdentifier:@"cell"];
   
   self.outerScrollView = (UIScrollView*)self.view;
-  self.outerScrollView.contentSize = CGSizeMake(320, 480);
-  [self.view setNeedsDisplay];
 }
 
 @end
