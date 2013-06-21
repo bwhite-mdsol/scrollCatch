@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 //
-// step 3 -- add protocol declaraiont
+// step 1c -- add protocol declaraiont
 //
 @protocol ScrollingCellDelegate;
 
@@ -17,14 +17,14 @@
 @property (nonatomic, strong) UIColor *color;
 
 //
-// step 2 -- add delegate prop and predefind above
+// step 1b -- add delegate prop and predefind above
 //
 @property (nonatomic, strong) id<ScrollingCellDelegate> delegate;
 
 @end
 
 //
-// step 1 -- add protocol
+// step 1a -- add protocol
 //
 @protocol ScrollingCellDelegate <NSObject>
 - (void) scrollingCellDidBeginPulling:(ScrollCell*)cell;

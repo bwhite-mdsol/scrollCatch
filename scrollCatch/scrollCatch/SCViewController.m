@@ -37,9 +37,6 @@
   [_outerScrollView setScrollEnabled:YES];
 }
 
-
-
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -68,11 +65,10 @@
 {
   [super viewDidLoad];
 
-  [self.collectionView registerClass:[ScrollCell class] forCellWithReuseIdentifier:@"cell"];
+  [_collectionView registerClass:[ScrollCell class] forCellWithReuseIdentifier:@"cell"];
   
-  self.outerScrollView = (UIScrollView*)self.view;
+  _outerScrollView = (UIScrollView*)self.view;
+  
+  [_outerScrollView setContentSize:CGSizeMake(640, 460)];
 }
-
-#pragma mark - UIScrollViewDelegate
-
 @end
