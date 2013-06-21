@@ -47,8 +47,9 @@
 //    }
 
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
-
-    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
+//
+// step 2c
+//    _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
 
@@ -61,7 +62,7 @@
 //  _deceleratingBackToZero = NO;
 
 //
-// step 2
+// step 2a
 //
 //  _scrollView.contentOffset = CGPointZero;
 ////  _scrollView.transform = CGAffineTransformIdentity;
@@ -126,7 +127,7 @@
   CGRect bounds = contentView.bounds;
 
 //
-// step 3 -- slide fully to the left
+// step 2b -- slide fully to the left
 //
 //  CGFloat pageWidth = bounds.size.width + PULL_THRESHOLD;
   CGFloat pageWidth = bounds.size.width;
