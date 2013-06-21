@@ -64,7 +64,7 @@
 //  _deceleratingBackToZero = NO;
 
 //
-// step 2a -- reset full cell
+// step 2a -- refill cell when done scrolling
 //
   _scrollView.contentOffset = CGPointZero;
   
@@ -133,7 +133,7 @@
   CGRect bounds = contentView.bounds;
 
 //
-// step 2b -- slide fully to the left
+// step 2b -- slide fully to the left by adding PULL_THRESHOLD
 //
   CGFloat pageWidth = bounds.size.width + PULL_THRESHOLD;
   _scrollView.frame = CGRectMake(0, 0, pageWidth, bounds.size.height);
