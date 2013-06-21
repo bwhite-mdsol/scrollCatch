@@ -8,13 +8,15 @@
 
 #import "ScrollCell.h"
 
-#define PULL_THRESHOLD 65
+#define PULL_THRESHOLD 120
 
 @implementation ScrollCell {
   UIScrollView *_scrollView;
   UIView *_colorView;
   
   BOOL _pulling;
+  BOOL _deceleratingBackToZero;
+  CGFloat _decelerationDistRatio;
 }
 
 #pragma mark UIScrollViewDelegat
@@ -28,9 +30,16 @@
   }
   
   if (_pulling) {
-    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
+    CGFloat pullOffset;
+    
+    if (_deceleratingBackToZero) {
+      pullOffset = offset * _decelerationDistRatio;
+    } else {
+      pullOffset = MAX(0, offset - PULL_THRESHOLD);
+    }
     
     [_delegate scrollingCell:self didChangePullOffset:pullOffset];
+    
     _scrollView.transform = CGAffineTransformMakeTranslation(pullOffset, 0);
   }
 }
@@ -38,6 +47,7 @@
 - (void) scrollingEnded {
   [_delegate scrollingCellDidEndPulling:self];
   _pulling = NO;
+  _deceleratingBackToZero = NO;
   
   _scrollView.contentOffset = CGPointZero;
   _scrollView.transform = CGAffineTransformIdentity;
@@ -45,13 +55,28 @@
 
 - (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate
 {
-  if (!decelerate)
+  if (!decelerate) {
     [self scrollingEnded];
+  }
 }
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView*)scrollView {
   [self scrollingEnded];
 }
+
+- (void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+  CGFloat offset = _scrollView.contentOffset.x;
+  
+  if ((*targetContentOffset).x == 0 && offset > 0) {
+    _deceleratingBackToZero = YES;
+    
+    CGFloat pullOffset = MAX(0, offset - PULL_THRESHOLD);
+    _decelerationDistRatio = pullOffset / offset;
+  }
+}
+
+#pragma mark - Init
 
 - (id)initWithFrame:(CGRect)frame
 {
