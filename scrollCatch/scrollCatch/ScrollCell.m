@@ -86,10 +86,6 @@
   UIView *contentView = [self contentView];
   CGRect bounds = contentView.bounds;
 
-//
-// step 2b -- slide fully to the left
-//
-//  CGFloat pageWidth = bounds.size.width + PULL_THRESHOLD;
   CGFloat pageWidth = bounds.size.width;
   _scrollView.frame = CGRectMake(0, 0, pageWidth, bounds.size.height);
   _scrollView.contentSize = CGSizeMake(pageWidth*2, bounds.size.height);
